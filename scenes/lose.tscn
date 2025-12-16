@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsqrdbndr01th"]
+
+[ext_resource type="Script" uid="uid://c314xw3jh7ijy" path="res://scripts/lose.gd" id="1_rtc1j"]
+[ext_resource type="Texture2D" uid="uid://b1a6tk74j0dff" path="res://assets/png/lost.png" id="2_pl8j0"]
+
+[node name="lose" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rtc1j")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_pl8j0")
+
+[node name="CenterContainer" type="CenterContainer" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TextureRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "You lose!"
+horizontal_alignment = 1
+
+[node name="Restart" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="Menu" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main menu"
+
+[connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Menu" to="." method="_on_menu_pressed"]
