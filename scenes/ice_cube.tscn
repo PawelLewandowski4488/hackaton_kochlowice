@@ -104,7 +104,7 @@ target_position = Vector3(3, 0, 0)
 [node name="RayCast_Left" type="RayCast3D" parent="."]
 target_position = Vector3(-3, 0, 0)
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="Tears" type="GPUParticles3D" parent="."]
 amount = 30
 trail_lifetime = 4.8999999999999995
 process_material = SubResource("ParticleProcessMaterial_o457p")
@@ -115,7 +115,7 @@ transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
 mesh = SubResource("ArrayMesh_juc8r")
 skeleton = NodePath("")
 
-[node name="GPUParticles3D_End" type="GPUParticles3D" parent="."]
+[node name="Tears_end" type="GPUParticles3D" parent="."]
 emitting = false
 amount = 10
 one_shot = true

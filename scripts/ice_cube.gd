@@ -27,8 +27,8 @@ var ray_right: RayCast3D
 var ray_left: RayCast3D
 
 func _ready() -> void:
-	particles = $GPUParticles3D
-	particles_end = $GPUParticles3D_End
+	particles = $Tears
+	particles_end = $Tears_end
 	cube = $Cube
 	collision_shape = $CollisionShape3D
 	camera = $Camera3D
