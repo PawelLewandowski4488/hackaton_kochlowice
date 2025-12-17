@@ -1,5 +1,7 @@
 extends Control
 
+#aktualnie niemozliwe przez brak meltingu
+
 const GAME_SCENE_PATH = "res://node.tscn"
 const GAME_MENU_PATH = "res://main_menu.tscn"
 # Called when the node enters the scene tree for the first time.

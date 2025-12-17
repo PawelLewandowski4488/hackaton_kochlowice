@@ -1,7 +1,7 @@
 extends Camera3D
 
 @export var target: RigidBody3D  # kostka, czyli rodzic
-@export var distance := 10.0
+@export var distance := 20.0
 @export var mouse_sensitivity := 0.002
 @export var min_pitch := deg_to_rad(-30)
 @export var max_pitch := deg_to_rad(60)
@@ -24,7 +24,7 @@ func _input(event):
 		
 	if event.is_action_pressed("ui_cancel"): 
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		get_tree().change_scene_to_file("res://main_menu.tscn")
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 		
 func _process(delta):
 	
