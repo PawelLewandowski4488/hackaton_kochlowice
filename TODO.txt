@@ -1,1 +1,2 @@
 - przerobienie objektow w kuchni na osobne sceny razem z testem hitboxow i z dobrym nazewnictwem (staticbody z dzecmi: meshinstance i collisionbody)
+- zrobienie spawnowania objektow w edytorze leveli

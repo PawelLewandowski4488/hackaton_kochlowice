@@ -1,2 +1,5 @@
 - mega skok (chyba)
 - hitboxy rozjebane
+
+- ruch kamera w level editor rozjebany
+- wyjscia do menu sa losowo wjhebane w kod 

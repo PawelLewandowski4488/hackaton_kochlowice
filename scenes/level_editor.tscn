@@ -1,0 +1,120 @@
+[gd_scene load_steps=12 format=3 uid="uid://dcc1hyrqs2qi2"]
+
+[ext_resource type="Script" uid="uid://ckxnxxwmgrc83" path="res://scenes/level_editor.gd" id="1_1mfi1"]
+[ext_resource type="Script" uid="uid://dsyxajxh8dcj4" path="res://scripts/camera_pivot.gd" id="1_ci1mn"]
+[ext_resource type="Script" uid="uid://c08isf40qygli" path="res://scenes/hud.gd" id="3_5u7ie"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n53k"]
+cull_mode = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_ci1mn"]
+size = Vector3(10, 10, 10)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ci1mn"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_1mfi1"]
+plane = Plane(0, -1, 0, 0)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_5u7ie"]
+plane = Plane(0, 0, -1, 0)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nh68x"]
+plane = Plane(0, 0, 1, 0)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_eovuc"]
+plane = Plane(-1, 0, 0, 0)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_jjsnv"]
+plane = Plane(1, 0, 0, 0)
+
+[node name="Level_Editor" type="Node3D"]
+script = ExtResource("1_1mfi1")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+omni_range = 10.0
+
+[node name="Camera_Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("1_ci1mn")
+
+[node name="Camera3D" type="Camera3D" parent="Camera_Pivot"]
+
+[node name="Room" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+material_override = SubResource("StandardMaterial3D_8n53k")
+mesh = SubResource("BoxMesh_ci1mn")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape_Down" type="CollisionShape3D" parent="Room"]
+shape = SubResource("WorldBoundaryShape3D_ci1mn")
+
+[node name="CollisionShape_Up" type="CollisionShape3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+shape = SubResource("WorldBoundaryShape3D_1mfi1")
+
+[node name="CollisionShape_Front" type="CollisionShape3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 5)
+shape = SubResource("WorldBoundaryShape3D_5u7ie")
+
+[node name="CollisionShape_Back" type="CollisionShape3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -5)
+shape = SubResource("WorldBoundaryShape3D_nh68x")
+
+[node name="CollisionShape_Right" type="CollisionShape3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5, 0)
+shape = SubResource("WorldBoundaryShape3D_eovuc")
+
+[node name="CollisionShape_Left" type="CollisionShape3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, 0)
+shape = SubResource("WorldBoundaryShape3D_jjsnv")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("3_5u7ie")
+
+[node name="Control" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="HUD/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -11.5
+offset_right = 48.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HUD DZIAŁA"
+
+[node name="Control2" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 149.0
+grow_vertical = 2
+size_flags_horizontal = 0
+
+[node name="Object_List" type="ItemList" parent="HUD/Control2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
