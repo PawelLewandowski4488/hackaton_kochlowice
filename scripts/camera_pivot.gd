@@ -33,8 +33,8 @@ func _process(delta):
 	if Input.is_action_pressed("go_back"):    dir += transform.basis.z
 	if Input.is_action_pressed("go_left"):    dir -= transform.basis.x
 	if Input.is_action_pressed("go_right"):   dir += transform.basis.x
-	if Input.is_action_pressed("jump"):       dir += transform.basis.y
-	if Input.is_action_pressed("go_down"):    dir -= transform.basis.y
+	if Input.is_action_pressed("jump"):       dir += Vector3.UP
+	if Input.is_action_pressed("go_down"):    dir -= Vector3.UP
 
 	dir = dir.normalized()
 	if dir != Vector3.ZERO:

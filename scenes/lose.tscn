@@ -1,7 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsqrdbndr01th"]
+[gd_scene load_steps=3 format=3 uid="uid://dc8olgi1dm5to"]
 
-[ext_resource type="Script" uid="uid://c314xw3jh7ijy" path="res://scripts/lose.gd" id="1_rtc1j"]
 [ext_resource type="Texture2D" uid="uid://b1a6tk74j0dff" path="res://assets/png/lost.png" id="2_pl8j0"]
+
+[sub_resource type="GDScript" id="GDScript_vjdtf"]
+script/source = "extends Control
+
+#aktualnie niemozliwe przez brak meltingu
+
+const GAME_SCENE_PATH = \"res://node.tscn\"
+const GAME_MENU_PATH = \"res://main_menu.tscn\"
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func _on_restart_pressed() -> void:
+	get_tree().change_scene_to_file(GAME_SCENE_PATH)
+	
+func _on_menu_pressed() -> void:
+	get_tree().change_scene_to_file(GAME_MENU_PATH)
+"
 
 [node name="lose" type="Control"]
 layout_mode = 3
@@ -10,7 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_rtc1j")
+script = SubResource("GDScript_vjdtf")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
