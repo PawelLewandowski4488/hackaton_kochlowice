@@ -1,1 +1,2 @@
 - melting usuniety
+- dzialajacy level editor (podstawowe funkcje, zapis, odczyt)

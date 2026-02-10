@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://dcc1hyrqs2qi2"]
 
-[ext_resource type="Script" uid="uid://ckxnxxwmgrc83" path="res://scenes/level_editor.gd" id="1_1mfi1"]
+[ext_resource type="Script" uid="uid://ckxnxxwmgrc83" path="res://scripts/level_editor.gd" id="1_1mfi1"]
 [ext_resource type="Script" uid="uid://dsyxajxh8dcj4" path="res://scripts/camera_pivot.gd" id="1_ci1mn"]
-[ext_resource type="Script" uid="uid://c08isf40qygli" path="res://scenes/hud.gd" id="3_5u7ie"]
+[ext_resource type="Script" uid="uid://c08isf40qygli" path="res://scripts/hud.gd" id="3_5u7ie"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n53k"]
 cull_mode = 1
@@ -76,32 +76,31 @@ script = ExtResource("3_5u7ie")
 
 [node name="Control" type="Control" parent="HUD"]
 layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_bottom = 80.0
+grow_horizontal = 0
 
-[node name="Label" type="Label" parent="HUD/Control"]
+[node name="Write_Button" type="Button" parent="HUD/Control"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -48.0
-offset_top = -11.5
-offset_right = 48.0
-offset_bottom = 11.5
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
 grow_horizontal = 2
-grow_vertical = 2
-text = "HUD DZIAŁA"
+text = "wypisz"
+
+[node name="Delete_Button" type="Button" parent="HUD/Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "usuń"
 
 [node name="Control2" type="Control" parent="HUD"]
 layout_mode = 3
@@ -118,3 +117,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[connection signal="pressed" from="HUD/Control/Write_Button" to="HUD" method="_on_write_button_pressed"]
+[connection signal="pressed" from="HUD/Control/Delete_Button" to="HUD" method="_on_delete_button_pressed"]

@@ -13,6 +13,16 @@ func _input(event):
 	if owner.move_mode == false:
 		return
 	
+	if event.is_action_pressed("scroll_up"):
+		speed += 1.0 
+		speed = clamp(speed, 1.0, 10.0)
+		print("Prędkość: ", speed)
+		
+	if event.is_action_pressed("scroll_down"):
+		speed -= 1.0
+		speed = clamp(speed, 1.0, 10.0)
+		print("Prędkość: ", speed)
+	
 	if event is InputEventMouseMotion:
 		yaw -= event.relative.x * sensitivity
 		pitch -= event.relative.y * sensitivity
