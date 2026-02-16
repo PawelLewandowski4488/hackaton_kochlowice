@@ -2,14 +2,14 @@ extends CanvasLayer
 
 signal object_selected_to_spawn(object_id)
 
-@onready var item_list = $Control2/Object_List
+@onready var item_list = $Left_Control/Object_List
+@onready var camera = $"../Camera_Pivot/Camera3D"
+@onready var object_properties = $"Right_Control/Object_Properties"
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	item_list.item_selected.connect(_on_item_list_selected)
 	fill_item_list()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 	
@@ -92,3 +92,40 @@ func _on_delete_button_pressed():
 	var objects = get_tree().get_nodes_in_group("built_objects")
 	for obj in objects:
 		obj.queue_free()
+
+
+func _on_middle_control_gui_input(event): #kliknięcie w obiekt zaznaczenie
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			print("Kliknięto w obszar kamery!")
+			shoot_ray()
+			
+func shoot_ray():
+	var mouse_pos = get_viewport().get_mouse_position()
+	
+	var ray_length = 2000
+	var from = camera.project_ray_origin(mouse_pos)
+	var to = from + camera.project_ray_normal(mouse_pos) * ray_length
+	
+	var space_state = camera.get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+	
+	var result = space_state.intersect_ray(query)
+	
+	if result:
+		var hit_node = result.collider
+		print(hit_node)
+		var target = null
+		
+		# Sprawdzanie czy obiekt lub jego rodzic należy do grupy build_objects
+		if hit_node.is_in_group("built_objects"):
+			target = hit_node
+		elif hit_node.get_parent().is_in_group("built_objects"):
+			target = hit_node.get_parent()
+		
+		if target:
+			object_properties.select_object(target)
+		else:
+			print("Obiekt nie należy do grupy build_objects")
+	else:
+		print("Nic nie trafiono")

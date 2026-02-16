@@ -32,7 +32,6 @@ func _input(event):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 
 func _process(delta):
 	pass

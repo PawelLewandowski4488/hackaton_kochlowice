@@ -1,0 +1,90 @@
+[gd_scene load_steps=2 format=3 uid="uid://g8e2b0mun2nd"]
+
+[ext_resource type="Script" uid="uid://dnas3pnyliyew" path="res://scripts/object_properties.gd" id="1_8liqw"]
+
+[node name="Object_Properties" type="PanelContainer"]
+anchors_preset = -1
+anchor_left = 0.85
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 0.8
+script = ExtResource("1_8liqw")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0.40335235, 0.42501107, 0.7431015, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Object_Name" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Position" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Position"
+
+[node name="Position_Container" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Position_X" type="LineEdit" parent="VBoxContainer/Position_Container"]
+layout_mode = 2
+
+[node name="Position_Y" type="LineEdit" parent="VBoxContainer/Position_Container"]
+layout_mode = 2
+
+[node name="Position_Z" type="LineEdit" parent="VBoxContainer/Position_Container"]
+layout_mode = 2
+
+[node name="Rotation" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Rotation"
+
+[node name="Rotation_Container" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Rotation_X" type="LineEdit" parent="VBoxContainer/Rotation_Container"]
+layout_mode = 2
+
+[node name="Rotation_Y" type="LineEdit" parent="VBoxContainer/Rotation_Container"]
+layout_mode = 2
+
+[node name="Rotation_Z" type="LineEdit" parent="VBoxContainer/Rotation_Container"]
+layout_mode = 2
+
+[node name="Scale" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Scale"
+
+[node name="Scale_Container" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Scale_X" type="LineEdit" parent="VBoxContainer/Scale_Container"]
+layout_mode = 2
+
+[node name="Scale_Y" type="LineEdit" parent="VBoxContainer/Scale_Container"]
+layout_mode = 2
+
+[node name="Scale_Z" type="LineEdit" parent="VBoxContainer/Scale_Container"]
+layout_mode = 2
+
+[node name="Delete_Object" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Delete"
+
+[node name="Hide" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "X"
+
+[connection signal="text_submitted" from="VBoxContainer/Position_Container/Position_X" to="." method="_on_value_submitted" binds= ["pos_x"]]
+[connection signal="text_submitted" from="VBoxContainer/Position_Container/Position_Y" to="." method="_on_value_submitted" binds= ["pos_y"]]
+[connection signal="text_submitted" from="VBoxContainer/Position_Container/Position_Z" to="." method="_on_value_submitted" binds= ["pos_z"]]
+[connection signal="text_submitted" from="VBoxContainer/Rotation_Container/Rotation_X" to="." method="_on_value_submitted" binds= ["rot_x"]]
+[connection signal="text_submitted" from="VBoxContainer/Rotation_Container/Rotation_Y" to="." method="_on_value_submitted" binds= ["rot_y"]]
+[connection signal="text_submitted" from="VBoxContainer/Rotation_Container/Rotation_Z" to="." method="_on_value_submitted" binds= ["rot_z"]]
+[connection signal="text_submitted" from="VBoxContainer/Scale_Container/Scale_X" to="." method="_on_value_submitted" binds= ["sca_x"]]
+[connection signal="text_submitted" from="VBoxContainer/Scale_Container/Scale_Y" to="." method="_on_value_submitted" binds= ["sca_y"]]
+[connection signal="text_submitted" from="VBoxContainer/Scale_Container/Scale_Z" to="." method="_on_value_submitted" binds= ["sca_z"]]
+[connection signal="pressed" from="VBoxContainer/Delete_Object" to="." method="_on_delete_object_pressed"]
+[connection signal="pressed" from="VBoxContainer/Hide" to="." method="_on_hide_pressed"]
