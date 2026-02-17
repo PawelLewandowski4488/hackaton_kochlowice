@@ -14,7 +14,11 @@ extends PanelContainer
 @onready var sca_y = $VBoxContainer/Scale_Container/Scale_Y
 @onready var sca_z = $VBoxContainer/Scale_Container/Scale_Z
 
+var camera: Camera3D = null
+
 var selected_object = null
+
+var is_following_camera: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,27 +26,40 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _process(_delta):
+	if is_following_camera and selected_object and is_instance_valid(selected_object) and camera:
+		var target_pos = camera.global_position - camera.global_transform.basis.z * 3.0
+		selected_object.global_position = target_pos
+		
+		pos_x.text = "%.2f" % selected_object.global_position.x
+		pos_y.text = "%.2f" % selected_object.global_position.y
+		pos_z.text = "%.2f" % selected_object.global_position.z
 
 func select_object(object):
 	selected_object = object
 	
 	object_name.text = str(selected_object.get_meta("object_id"))
-	# Pozycja
-	pos_x.text = str(selected_object.global_position.x)
-	pos_y.text = str(selected_object.global_position.y)
-	pos_z.text = str(selected_object.global_position.z)
 	
-	# Rotacja
-	rot_x.text = str(selected_object.rotation_degrees.x)
-	rot_y.text = str(selected_object.rotation_degrees.y)
-	rot_z.text = str(selected_object.rotation_degrees.z)
+	# Pozycja zostaje bez zmian
+	pos_x.text = "%.2f" % selected_object.global_position.x
+	pos_y.text = "%.2f" % selected_object.global_position.y
+	pos_z.text = "%.2f" % selected_object.global_position.z
 	
-	# Skala
-	sca_x.text = str(selected_object.scale.x)
-	sca_y.text = str(selected_object.scale.y)
-	sca_z.text = str(selected_object.scale.z)
+	# --- NOWA LOGIKA DLA ROTACJI ---
+	# Pobieramy macierz świata, czyścimy ją ze skali (orthonormalized) i wyciągamy czyste kąty
+	var basis = selected_object.global_transform.basis.orthonormalized()
+	var rot = basis.get_euler()
+	
+	# Zamieniamy radiany na stopnie i wyświetlamy
+	rot_x.text = "%.2f" % rad_to_deg(rot.x)
+	rot_y.text = "%.2f" % rad_to_deg(rot.y)
+	rot_z.text = "%.2f" % rad_to_deg(rot.z)
+	# -------------------------------
+	
+	# Skala zostaje bez zmian
+	sca_x.text = "%.2f" % selected_object.scale.x
+	sca_y.text = "%.2f" % selected_object.scale.y
+	sca_z.text = "%.2f" % selected_object.scale.z
 	
 	visible = true
 
@@ -51,7 +68,7 @@ func _on_hide_pressed():
 	selected_object = null
 	visible = false
 	
-	object_name = ''
+	object_name.text = ''
 	
 	pos_x.text = ''
 	pos_y.text = ''
@@ -86,12 +103,16 @@ func _on_value_submitted(new_text, extra_arg_0):
 		"pos_y": selected_object.global_position.y = val
 		"pos_z": selected_object.global_position.z = val
 		
-		"rot_x": selected_object.rotation_degrees.x = val
-		"rot_y": selected_object.rotation_degrees.y = val
-		"rot_z": selected_object.rotation_degrees.z = val
+		"rot_x": selected_object.global_rotation_degrees.x = val
+		"rot_y": selected_object.global_rotation_degrees.y = val
+		"rot_z": selected_object.global_rotation_degrees.z = val
 		
 		"sca_x": selected_object.scale.x = val
 		"sca_y": selected_object.scale.y = val
 		"sca_z": selected_object.scale.z = val
 
 	select_object(selected_object)
+
+
+func _on_hold_switch_toggled(toggled_on):
+	is_following_camera = toggled_on

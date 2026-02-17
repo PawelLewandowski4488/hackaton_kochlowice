@@ -22,10 +22,12 @@ layout_mode = 2
 
 [node name="Position" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Position"
 
 [node name="Position_Container" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="Position_X" type="LineEdit" parent="VBoxContainer/Position_Container"]
 layout_mode = 2
@@ -38,10 +40,12 @@ layout_mode = 2
 
 [node name="Rotation" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Rotation"
 
 [node name="Rotation_Container" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="Rotation_X" type="LineEdit" parent="VBoxContainer/Rotation_Container"]
 layout_mode = 2
@@ -54,10 +58,12 @@ layout_mode = 2
 
 [node name="Scale" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Scale"
 
 [node name="Scale_Container" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="Scale_X" type="LineEdit" parent="VBoxContainer/Scale_Container"]
 layout_mode = 2
@@ -67,6 +73,17 @@ layout_mode = 2
 
 [node name="Scale_Z" type="LineEdit" parent="VBoxContainer/Scale_Container"]
 layout_mode = 2
+
+[node name="Hold" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+text = "Hold Object"
+
+[node name="Hold_Switch" type="CheckButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
 
 [node name="Delete_Object" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -86,5 +103,6 @@ text = "X"
 [connection signal="text_submitted" from="VBoxContainer/Scale_Container/Scale_X" to="." method="_on_value_submitted" binds= ["sca_x"]]
 [connection signal="text_submitted" from="VBoxContainer/Scale_Container/Scale_Y" to="." method="_on_value_submitted" binds= ["sca_y"]]
 [connection signal="text_submitted" from="VBoxContainer/Scale_Container/Scale_Z" to="." method="_on_value_submitted" binds= ["sca_z"]]
+[connection signal="toggled" from="VBoxContainer/Hold_Switch" to="." method="_on_hold_switch_toggled"]
 [connection signal="pressed" from="VBoxContainer/Delete_Object" to="." method="_on_delete_object_pressed"]
 [connection signal="pressed" from="VBoxContainer/Hide" to="." method="_on_hide_pressed"]

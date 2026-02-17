@@ -65,11 +65,27 @@ func _on_write_button_pressed():
 		if obj is Node3D:
 			var object_type = obj.get_meta("object_id")
 			
+			# Pobieramy czystą rotację bez zniekształceń skali
+			var pure_basis = obj.global_transform.basis.orthonormalized()
+			var pure_rot_rad = pure_basis.get_euler()
+			
 			var object_data = {
 				"type": object_type,
-				"pos": {"x": obj.global_position.x, "y": obj.global_position.y, "z": obj.global_position.z},
-				"rot": {"x": obj.global_rotation_degrees.x, "y": obj.global_rotation_degrees.y, "z": obj.global_rotation_degrees.z},
-				"scale": {"x": obj.scale.x, "y": obj.scale.y, "z": obj.scale.z}
+				"pos": {
+					"x": snappedf(obj.global_position.x, 0.01), 
+					"y": snappedf(obj.global_position.y, 0.01), 
+					"z": snappedf(obj.global_position.z, 0.01)
+				},
+				"rot": {
+					"x": snappedf(rad_to_deg(pure_rot_rad.x), 0.01), 
+					"y": snappedf(rad_to_deg(pure_rot_rad.y), 0.01), 
+					"z": snappedf(rad_to_deg(pure_rot_rad.z), 0.01)
+				},
+				"scale": {
+					"x": snappedf(obj.scale.x, 0.01), 
+					"y": snappedf(obj.scale.y, 0.01), 
+					"z": snappedf(obj.scale.z, 0.01)
+				}
 			}
 			save_data["objects"].append(object_data)
 

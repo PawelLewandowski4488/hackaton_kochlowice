@@ -4,6 +4,7 @@ var move_mode
 var objects_path = "res://scenes/objects/"
 @onready var camera = $Camera_Pivot/Camera3D
 @onready var hud = $HUD
+@onready var object_properties = $HUD/Right_Control/Object_Properties
 
 var selected_object = null
 
@@ -16,6 +17,7 @@ func _ready():
 		else:
 			print("Rozpoczynanie nowego projektu: ", GlobalData.current_level_name)
 	
+	object_properties.camera = camera
 	move_mode = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	hud.object_selected_to_spawn.connect(_create_object)
