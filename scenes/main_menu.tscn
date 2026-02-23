@@ -40,9 +40,14 @@ text = "Ice Cube The Game"
 layout_mode = 2
 text = "Play"
 
+[node name="Level_Editor" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Level Editor"
+
 [node name="Quit" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Level_Editor" to="." method="_on_level_editor_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
