@@ -61,7 +61,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 5)
 shape = SubResource("WorldBoundaryShape3D_5u7ie")
 
 [node name="CollisionShape_Back" type="CollisionShape3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -5)
 shape = SubResource("WorldBoundaryShape3D_nh68x")
 
 [node name="CollisionShape_Right" type="CollisionShape3D" parent="Room"]
@@ -69,7 +68,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5, 0)
 shape = SubResource("WorldBoundaryShape3D_eovuc")
 
 [node name="CollisionShape_Left" type="CollisionShape3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, 0)
 shape = SubResource("WorldBoundaryShape3D_jjsnv")
 
 [node name="HUD" type="CanvasLayer" parent="."]

@@ -4,28 +4,24 @@
 [ext_resource type="PackedScene" uid="uid://iwwetp3e2mm4" path="res://scenes/kitchen.tscn" id="2_j2q8x"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j2q8x"]
-size = Vector3(37.114258, 45.748367, 56.540466)
+size = Vector3(10, 8, 10)
 
 [node name="Game" type="Node"]
 
-[node name="IceCube" parent="." instance=ExtResource("1_sy5k4")]
-transform = Transform3D(-0.99999994, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.99999994, 24.358406, 31.265865, 71.08916)
-
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 153.22891, 220.1948, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.6660185, 46.339188, -4.1615705)
 shadow_enabled = true
-omni_range = 475.62247
+omni_range = 100.0
 omni_attenuation = 0.0
 omni_shadow_mode = 0
 
 [node name="kitchen2" parent="." instance=ExtResource("2_j2q8x")]
-transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
 
 [node name="Goal" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.33175, 159.31268, -188.388)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.288746, 34.33593, -39.890232)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Goal"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.442871, 5.877838, 2.8692932)
 shape = SubResource("BoxShape3D_j2q8x")
 
-[connection signal="body_entered" from="Goal" to="IceCube" method="_on_area_3d_body_entered"]
+[node name="IceCube" parent="." instance=ExtResource("1_sy5k4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

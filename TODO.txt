@@ -1,2 +1,4 @@
 - przerobienie objektow w kuchni na osobne sceny razem z testem hitboxow i z dobrym nazewnictwem (staticbody z dzecmi: meshinstance i collisionbody)
 - folder maps/ nie zadziala w wersji exe, potrzebny bedzie folder user/
+
+- w samej grze sily sa zjebane

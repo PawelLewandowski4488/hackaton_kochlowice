@@ -4,3 +4,4 @@
 - wyjscia do menu sa losowo wjhebane w kod 
 - esc w leveleditor wraca do mainmenu a nie levelmanager
 - zjebane hitboxy plates w level editor
+- zjebana skala wszystkiego

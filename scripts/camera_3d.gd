@@ -1,7 +1,7 @@
 extends Camera3D
 
 @export var target: RigidBody3D  # kostka, czyli rodzic
-@export var distance := 20.0
+@export var distance := 3.0
 @export var mouse_sensitivity := 0.002
 @export var min_pitch := deg_to_rad(-30)
 @export var max_pitch := deg_to_rad(60)

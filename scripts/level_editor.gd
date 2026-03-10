@@ -5,6 +5,16 @@ var objects_path = "res://scenes/objects/"
 @onready var camera = $Camera_Pivot/Camera3D
 @onready var hud = $HUD
 @onready var object_properties = $HUD/Right_Control/Object_Properties
+@onready var col_up = $Room/CollisionShape_Up
+@onready var col_right = $Room/CollisionShape_Right
+@onready var col_front = $Room/CollisionShape_Front
+@onready var mesh = $Room/MeshInstance3D
+@onready var light = $OmniLight3D
+
+var level_size: Vector3 = Vector3.ZERO
+var level_x: int = 10
+var level_z: int = 20
+var level_y: int = 30
 
 var selected_object = null
 
@@ -17,6 +27,7 @@ func _ready():
 		else:
 			print("Rozpoczynanie nowego projektu: ", GlobalData.current_level_name)
 	
+	update_level_size()
 	object_properties.camera = camera
 	move_mode = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -37,6 +48,14 @@ func _input(event):
 
 func _process(delta):
 	pass
+
+func update_level_size():
+	col_right.position.x = level_size[0]
+	col_up.position.y = level_size[1]
+	col_front.position.z = level_size[2]
+	mesh.position = level_size / 2
+	mesh.mesh.size = level_size
+	light.position = level_size / 2
 
 func _create_object(id: String):
 	var full_path = objects_path + id + ".tscn"
