@@ -19,7 +19,7 @@ func _input(event):
 func update_level_list():
 	level_list.clear()
 	
-	var path = "res://maps/"
+	var path = "user://maps/"
 	var dir = DirAccess.open(path)
 	
 	if dir:
@@ -27,7 +27,9 @@ func update_level_list():
 		var file_name = dir.get_next()
 		
 		while file_name != "":
+			print(file_name)
 			if !dir.current_is_dir() and file_name.ends_with(".json"):
+				print('git')
 				level_list.add_item(file_name)
 			file_name = dir.get_next()
 		dir.list_dir_end()
@@ -57,7 +59,7 @@ func _on_create_level_pressed():
 		return
 
 	var final_name = raw_level_name.validate_filename()
-	var full_path = "res://maps/" + final_name + ".json"
+	var full_path = "user://maps/" + final_name + ".json"
 	
 	if FileAccess.file_exists(full_path):
 		input_field.text = ""
@@ -78,7 +80,7 @@ func _on_delete_level_pressed():
 		
 	var index = selected_items[0]
 	var file_to_delete = level_list.get_item_text(index)
-	var full_path = "res://maps/" + file_to_delete
+	var full_path = "user://maps/" + file_to_delete
 	
 	if FileAccess.file_exists(full_path):
 		var err = DirAccess.remove_absolute(full_path)

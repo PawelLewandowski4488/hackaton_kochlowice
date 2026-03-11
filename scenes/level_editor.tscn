@@ -1,15 +1,15 @@
 [gd_scene load_steps=13 format=3 uid="uid://dcc1hyrqs2qi2"]
 
-[ext_resource type="Script" uid="uid://ckxnxxwmgrc83" path="res://scripts/level_editor.gd" id="1_1mfi1"]
-[ext_resource type="Script" uid="uid://dsyxajxh8dcj4" path="res://scripts/camera_pivot.gd" id="1_ci1mn"]
-[ext_resource type="Script" uid="uid://c08isf40qygli" path="res://scripts/hud.gd" id="3_5u7ie"]
+[ext_resource type="Script" uid="uid://dw13xr7wodfrb" path="res://scripts/level_editor.gd" id="1_1mfi1"]
+[ext_resource type="Script" uid="uid://dpgkukx1u5hs4" path="res://scripts/camera_pivot.gd" id="1_ci1mn"]
+[ext_resource type="Script" uid="uid://bfe648lv2481f" path="res://scripts/hud.gd" id="3_5u7ie"]
 [ext_resource type="PackedScene" uid="uid://g8e2b0mun2nd" path="res://scenes/object_properties.tscn" id="4_nh68x"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n53k"]
 cull_mode = 1
 
 [sub_resource type="BoxMesh" id="BoxMesh_ci1mn"]
-size = Vector3(10, 10, 10)
+size = Vector3(10, 20, 30)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ci1mn"]
 
@@ -32,11 +32,12 @@ plane = Plane(1, 0, 0, 0)
 script = ExtResource("1_1mfi1")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
-omni_range = 10.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 10, 15)
+omni_range = 30.0
+omni_attenuation = 0.5
 
 [node name="Camera_Pivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(-0.7071068, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.7071068, 0.5, 2, 0.5)
 script = ExtResource("1_ci1mn")
 
 [node name="Camera3D" type="Camera3D" parent="Camera_Pivot"]
@@ -44,7 +45,7 @@ script = ExtResource("1_ci1mn")
 [node name="Room" type="StaticBody3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 10, 15)
 material_override = SubResource("StandardMaterial3D_8n53k")
 mesh = SubResource("BoxMesh_ci1mn")
 skeleton = NodePath("../..")
@@ -53,18 +54,18 @@ skeleton = NodePath("../..")
 shape = SubResource("WorldBoundaryShape3D_ci1mn")
 
 [node name="CollisionShape_Up" type="CollisionShape3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
 shape = SubResource("WorldBoundaryShape3D_1mfi1")
 
 [node name="CollisionShape_Front" type="CollisionShape3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 30)
 shape = SubResource("WorldBoundaryShape3D_5u7ie")
 
 [node name="CollisionShape_Back" type="CollisionShape3D" parent="Room"]
 shape = SubResource("WorldBoundaryShape3D_nh68x")
 
 [node name="CollisionShape_Right" type="CollisionShape3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 5, 0)
 shape = SubResource("WorldBoundaryShape3D_eovuc")
 
 [node name="CollisionShape_Left" type="CollisionShape3D" parent="Room"]
@@ -120,29 +121,50 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.24612898, 0.2795034, 0.39377207, 1)
 
-[node name="Write_Button" type="Button" parent="HUD/Right_Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Right_Control"]
 layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 31.0
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -106.0
+offset_right = 106.0
 grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Write_Button" type="Button" parent="HUD/Right_Control/VBoxContainer"]
+layout_mode = 2
 text = "wypisz"
 
-[node name="Delete_Button" type="Button" parent="HUD/Right_Control"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="Level_size" type="Label" parent="HUD/Right_Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Level size"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Right_Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="Level_size_x" type="LineEdit" parent="HUD/Right_Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Level_size_y" type="LineEdit" parent="HUD/Right_Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Level_size_z" type="LineEdit" parent="HUD/Right_Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Object_Properties" parent="HUD/Right_Control/VBoxContainer" instance=ExtResource("4_nh68x")]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Delete_Button" type="Button" parent="HUD/Right_Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
 text = "usuń"
 
-[node name="Object_Properties" parent="HUD/Right_Control" instance=ExtResource("4_nh68x")]
-layout_mode = 1
-anchor_left = 0.0
-
 [connection signal="gui_input" from="HUD/Middle_control" to="HUD" method="_on_middle_control_gui_input"]
-[connection signal="pressed" from="HUD/Right_Control/Write_Button" to="HUD" method="_on_write_button_pressed"]
-[connection signal="pressed" from="HUD/Right_Control/Delete_Button" to="HUD" method="_on_delete_button_pressed"]
+[connection signal="pressed" from="HUD/Right_Control/VBoxContainer/Write_Button" to="HUD" method="_on_write_button_pressed"]
+[connection signal="text_submitted" from="HUD/Right_Control/VBoxContainer/HBoxContainer/Level_size_x" to="HUD" method="_on_level_size_text_submitted" binds= ["x"]]
+[connection signal="text_submitted" from="HUD/Right_Control/VBoxContainer/HBoxContainer/Level_size_y" to="HUD" method="_on_level_size_text_submitted" binds= ["y"]]
+[connection signal="text_submitted" from="HUD/Right_Control/VBoxContainer/HBoxContainer/Level_size_z" to="HUD" method="_on_level_size_text_submitted" binds= ["z"]]
+[connection signal="pressed" from="HUD/Right_Control/VBoxContainer/Delete_Button" to="HUD" method="_on_delete_button_pressed"]

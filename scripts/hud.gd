@@ -4,7 +4,7 @@ signal object_selected_to_spawn(object_id)
 
 @onready var item_list = $Left_Control/Object_List
 @onready var camera = $"../Camera_Pivot/Camera3D"
-@onready var object_properties = $"Right_Control/Object_Properties"
+@onready var object_properties = $Right_Control/VBoxContainer/Object_Properties
 
 func _ready():
 	item_list.item_selected.connect(_on_item_list_selected)
@@ -52,6 +52,11 @@ func _on_write_button_pressed():
 	var save_data = {
 		"level_name": GlobalData.current_level_name,
 		"date_created": Time.get_datetime_string_from_system(),
+		"level_size": { # Dodane
+			"x": GlobalData.level_size.x,
+			"y": GlobalData.level_size.y,
+			"z": GlobalData.level_size.z
+		},
 		"objects": []
 	}
 	
@@ -91,7 +96,11 @@ func _on_write_button_pressed():
 
 	var json_string = JSON.stringify(save_data, "\t")
 	
-	var file_path = "res://maps/" + GlobalData.current_level_name
+	var file_path = "user://maps/" + GlobalData.current_level_name + ".json"
+	
+	var dir = DirAccess.open("user://")
+	if not dir.dir_exists("maps"):
+		dir.make_dir("maps")
 	
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	
@@ -101,7 +110,7 @@ func _on_write_button_pressed():
 		print("SUKCES: Zapisano plik w: ", file_path)
 	else:
 		var err = FileAccess.get_open_error()
-		print("BŁĄD ZAPISU (Kod: ", err, "). Upewnij się, że folder res://maps/ istnieje!")
+		print("BŁĄD ZAPISU (Kod: ", err, ")")
 
 
 func _on_delete_button_pressed():
@@ -145,3 +154,12 @@ func shoot_ray():
 			print("Obiekt nie należy do grupy build_objects")
 	else:
 		print("Nic nie trafiono")
+
+
+func _on_level_size_text_submitted(new_text: String, extra_arg_0: String) -> void:
+	var axis_map = {"x": 0, "y": 1, "z": 2}
+	
+	if extra_arg_0 in axis_map and new_text.is_valid_int():
+		GlobalData.level_size[axis_map[extra_arg_0]] = int(new_text)
+		get_viewport().gui_release_focus()
+		get_parent().update_level_size()
