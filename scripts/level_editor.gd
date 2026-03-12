@@ -66,7 +66,7 @@ func _create_object(id: String):
 		add_child(instance)
 		
 		if camera:
-			var spawn_pos = camera.global_position - camera.global_transform.basis.z * 3.0
+			var spawn_pos = camera.global_position - camera.global_transform.basis.z * 5
 			instance.global_position = spawn_pos
 
 

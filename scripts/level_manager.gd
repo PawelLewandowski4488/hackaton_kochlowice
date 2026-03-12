@@ -27,9 +27,7 @@ func update_level_list():
 		var file_name = dir.get_next()
 		
 		while file_name != "":
-			print(file_name)
 			if !dir.current_is_dir() and file_name.ends_with(".json"):
-				print('git')
 				level_list.add_item(file_name)
 			file_name = dir.get_next()
 		dir.list_dir_end()
@@ -68,6 +66,7 @@ func _on_create_level_pressed():
 
 	GlobalData.current_level_name = final_name
 	GlobalData.should_load_existing = false 
+	GlobalData.level_size = Vector3(10,10,10)
 	get_tree().change_scene_to_file("res://scenes/level_editor.tscn")
 
 

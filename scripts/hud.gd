@@ -5,10 +5,13 @@ signal object_selected_to_spawn(object_id)
 @onready var item_list = $Left_Control/Object_List
 @onready var camera = $"../Camera_Pivot/Camera3D"
 @onready var object_properties = $Right_Control/VBoxContainer/Object_Properties
+@onready var level_size_x = $Right_Control/VBoxContainer/HBoxContainer/Level_size_x
+@onready var level_size_y = $Right_Control/VBoxContainer/HBoxContainer/Level_size_y
+@onready var level_size_z = $Right_Control/VBoxContainer/HBoxContainer/Level_size_z
 
 func _ready():
-	item_list.item_selected.connect(_on_item_list_selected)
 	fill_item_list()
+	display_level_size()
 
 func _process(delta):
 	pass
@@ -42,8 +45,11 @@ func fill_item_list():
 	else:
 		print("Błąd: Nie można otworzyć folderu: ", path)
 
-func _on_item_list_selected(index):
+func _on_object_list_item_activated(index: int) -> void:
+	if index < 0:
+		return
 	var id = item_list.get_item_metadata(index)
+	print(id)
 	object_selected_to_spawn.emit(id) 
 	item_list.deselect_all()
 
@@ -162,4 +168,10 @@ func _on_level_size_text_submitted(new_text: String, extra_arg_0: String) -> voi
 	if extra_arg_0 in axis_map and new_text.is_valid_int():
 		GlobalData.level_size[axis_map[extra_arg_0]] = int(new_text)
 		get_viewport().gui_release_focus()
+		display_level_size()
 		get_parent().update_level_size()
+
+func display_level_size():
+	level_size_x.text = str(int(GlobalData.level_size[0]))
+	level_size_y.text = str(int(GlobalData.level_size[1]))
+	level_size_z.text = str(int(GlobalData.level_size[2]))

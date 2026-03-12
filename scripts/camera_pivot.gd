@@ -7,7 +7,8 @@ var yaw: float = 0.0
 var pitch: float = 0.0
 
 func _ready():
-	pass
+	yaw = rotation_degrees.y
+	pitch = rotation_degrees.x
 
 func _input(event):
 	if owner.move_mode == false:

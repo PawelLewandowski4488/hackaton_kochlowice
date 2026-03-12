@@ -44,6 +44,5 @@ shadow_mesh = SubResource("ArrayMesh_be0do")
 [node name="Start_Position" type="Node3D"]
 
 [node name="Cube" type="MeshInstance3D" parent="."]
-transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
 mesh = SubResource("ArrayMesh_jut1q")
 skeleton = NodePath("")
