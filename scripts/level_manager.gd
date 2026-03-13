@@ -19,7 +19,7 @@ func _input(event):
 func update_level_list():
 	level_list.clear()
 	
-	var path = "res://maps/"
+	var path = "user://maps/"
 	var dir = DirAccess.open(path)
 	
 	if dir:
@@ -57,7 +57,7 @@ func _on_create_level_pressed():
 		return
 
 	var final_name = raw_level_name.validate_filename()
-	var full_path = "res://maps/" + final_name + ".json"
+	var full_path = "user://maps/" + final_name + ".json"
 	
 	if FileAccess.file_exists(full_path):
 		input_field.text = ""
@@ -66,6 +66,7 @@ func _on_create_level_pressed():
 
 	GlobalData.current_level_name = final_name
 	GlobalData.should_load_existing = false 
+	GlobalData.level_size = Vector3(10,10,10)
 	get_tree().change_scene_to_file("res://scenes/level_editor.tscn")
 
 
@@ -78,7 +79,7 @@ func _on_delete_level_pressed():
 		
 	var index = selected_items[0]
 	var file_to_delete = level_list.get_item_text(index)
-	var full_path = "res://maps/" + file_to_delete
+	var full_path = "user://maps/" + file_to_delete
 	
 	if FileAccess.file_exists(full_path):
 		var err = DirAccess.remove_absolute(full_path)

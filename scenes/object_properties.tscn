@@ -84,6 +84,7 @@ text = "Hold Object"
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+focus_mode = 0
 
 [node name="Delete_Object" type="Button" parent="VBoxContainer"]
 layout_mode = 2

@@ -2,3 +2,4 @@
 - hitboxy do naprawy
 
 - esc w leveleditor wraca do mainmenu a nie levelmanager
+- tworzenie obiektow w level editor tworzy duzo ice cube'ow nie wiadomo czemu

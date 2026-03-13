@@ -103,11 +103,11 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	if force.length() > 0.0:
-		apply_central_force(force*10000)
+		apply_central_force(force*2000)
 	
 	if jump_force.length() > 0.0:
-		apply_central_impulse(jump_force*200)
-		apply_torque_impulse(aforce*10000)
+		apply_central_impulse(jump_force*100)
+		apply_torque_impulse(aforce*2000)
 		jump_force = Vector3.ZERO
 		aforce = Vector3.ZERO
 
