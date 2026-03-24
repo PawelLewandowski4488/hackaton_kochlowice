@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=3 uid="uid://6yg2gec7w3ih"]
+
+[ext_resource type="Script" uid="uid://d2l4sr3n4v0il" path="res://scripts/game_2.gd" id="1_r11to"]
+[ext_resource type="PackedScene" uid="uid://5pjdsjxjw7ym" path="res://scenes/ice_cube.tscn" id="2_1oiof"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3sm6k"]
+cull_mode = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_wgl31"]
+size = Vector3(10, 20, 30)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_f674i"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_wjphx"]
+plane = Plane(0, -1, 0, 0)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_so0bb"]
+plane = Plane(0, 0, -1, 0)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_c45dc"]
+plane = Plane(0, 0, 1, 0)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_b4gt0"]
+plane = Plane(-1, 0, 0, 0)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_kmooo"]
+plane = Plane(1, 0, 0, 0)
+
+[node name="Game2" type="Node"]
+script = ExtResource("1_r11to")
+
+[node name="Room" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 10, 15)
+material_override = SubResource("StandardMaterial3D_3sm6k")
+mesh = SubResource("BoxMesh_wgl31")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape_Down" type="CollisionShape3D" parent="Room"]
+shape = SubResource("WorldBoundaryShape3D_f674i")
+
+[node name="CollisionShape_Up" type="CollisionShape3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+shape = SubResource("WorldBoundaryShape3D_wjphx")
+
+[node name="CollisionShape_Front" type="CollisionShape3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 30)
+shape = SubResource("WorldBoundaryShape3D_so0bb")
+
+[node name="CollisionShape_Back" type="CollisionShape3D" parent="Room"]
+shape = SubResource("WorldBoundaryShape3D_c45dc")
+
+[node name="CollisionShape_Right" type="CollisionShape3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 5, 0)
+shape = SubResource("WorldBoundaryShape3D_b4gt0")
+
+[node name="CollisionShape_Left" type="CollisionShape3D" parent="Room"]
+shape = SubResource("WorldBoundaryShape3D_kmooo")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 10, 15)
+omni_range = 30.0
+omni_attenuation = 0.5
+
+[node name="IceCube" parent="." instance=ExtResource("2_1oiof")]

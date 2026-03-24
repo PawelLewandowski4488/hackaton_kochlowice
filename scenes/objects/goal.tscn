@@ -11,6 +11,7 @@ albedo_color = Color(0.32941177, 1, 0.32941177, 0.5019608)
 [node name="Goal" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2045133, 0, 0)
 material_override = SubResource("StandardMaterial3D_72oew")
 mesh = SubResource("BoxMesh_d1k5b")
 
