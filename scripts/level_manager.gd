@@ -100,7 +100,7 @@ func _on_load_level_pressed():
 	var index = selected_items[0]
 	var file_to_load = level_list.get_item_text(index)
 	
-	GlobalData.current_level_name = file_to_load
+	GlobalData.current_level_name = file_to_load.get_basename()
 	GlobalData.should_load_existing = true 
 	
 	get_tree().change_scene_to_file("res://scenes/level_editor.tscn")
