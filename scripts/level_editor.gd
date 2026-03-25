@@ -1,7 +1,7 @@
 extends Node3D
 
 var move_mode
-var objects_path = "res://scenes/objects/"
+
 @onready var camera = $Camera_Pivot/Camera3D
 @onready var hud = $HUD
 @onready var object_properties = $HUD/Right_Control/VBoxContainer/Object_Properties
@@ -20,7 +20,7 @@ func _ready():
 	if GlobalData.current_level_name != "":
 		if GlobalData.should_load_existing:
 			# Tutaj wywołaj swoją funkcję wczytywania
-			load_level_from_json("user://maps/" + GlobalData.current_level_name)
+			load_level_from_json(GlobalData.MAPS_DIR + GlobalData.current_level_name + ".json")
 		else:
 			print("Rozpoczynanie nowego projektu: ", GlobalData.current_level_name)
 	
@@ -56,7 +56,7 @@ func update_level_size():
 	light.omni_range = max(GlobalData.level_size[0], GlobalData.level_size[1], GlobalData.level_size[2])
 
 func _create_object(id: String):
-	var full_path = objects_path + id + ".tscn"
+	var full_path = GlobalData.OBJ_DIR + id + ".tscn"
 	var object_scene = load(full_path)
 	
 	if object_scene:
@@ -68,6 +68,7 @@ func _create_object(id: String):
 		if camera:
 			var spawn_pos = camera.global_position - camera.global_transform.basis.z * 5
 			instance.global_position = spawn_pos
+		object_properties.select_object(instance)
 
 
 func load_level_from_json(path: String):
@@ -92,11 +93,12 @@ func load_level_from_json(path: String):
 		GlobalData.level_size = Vector3i(sz.x, sz.y, sz.z)
 		update_level_size()
 	
+	var loaded_scenes = {}
 	for obj_data in data["objects"]:
-		var type = obj_data["type"] 
-		
-		var full_path = objects_path + type + ".tscn"
-		var scene = load(full_path)
+		var type = obj_data["type"]
+		if not loaded_scenes.has(type):
+			loaded_scenes[type] = load(GlobalData.OBJ_DIR + type + ".tscn")
+		var scene = loaded_scenes[type]
 		
 		if scene:
 			var instance = scene.instantiate()
@@ -113,4 +115,4 @@ func load_level_from_json(path: String):
 			instance.global_rotation_degrees = Vector3(rot.x, rot.y, rot.z)
 			instance.scale = Vector3(scl.x, scl.y, scl.z)
 		else:
-			print("Nie udało się załadować sceny: ", full_path)
+			print("Nie udało się załadować sceny: ", GlobalData.OBJ_DIR, type, ".tscn")

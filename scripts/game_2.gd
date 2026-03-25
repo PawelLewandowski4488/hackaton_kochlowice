@@ -1,6 +1,6 @@
 extends Node
 
-var objects_path = "res://scenes/objects/"
+
 
 @onready var ice_cube = $IceCube
 @onready var col_up = $Room/CollisionShape_Up
@@ -10,7 +10,7 @@ var objects_path = "res://scenes/objects/"
 @onready var light = $Room/OmniLight3D
 
 func _ready():
-	load_level_from_json("user://maps/test.json");
+	load_level_from_json(GlobalData.MAPS_DIR + "test.json");
 	
 func update_level_size():
 	col_right.position.x = GlobalData.level_size[0]
@@ -53,7 +53,7 @@ func load_level_from_json(path: String):
 			ice_cube.global_position = Vector3(pos.x, pos.y, pos.z)
 			ice_cube.global_rotation_degrees = Vector3(rot.x, rot.y, rot.z)
 		else:
-			var full_path = objects_path + type + ".tscn"
+			var full_path = GlobalData.OBJ_DIR + type + ".tscn"
 			var scene = load(full_path)
 			
 			if scene:

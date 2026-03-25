@@ -10,32 +10,20 @@ var aforce = Vector3.ZERO
 
 var jump_charge
 
-var bottom_raycast: RayCast3D = null
+@onready var particles: GPUParticles3D = $Tears
+@onready var cube: MeshInstance3D = $Cube
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
+@onready var camera: Camera3D = $Camera3D
+@onready var ray_up: RayCast3D = $RayCast_Up
+@onready var ray_down: RayCast3D = $RayCast_Down
+@onready var ray_front: RayCast3D = $RayCast_Front
+@onready var ray_back: RayCast3D = $RayCast_Back
+@onready var ray_right: RayCast3D = $RayCast_Right
+@onready var ray_left: RayCast3D = $RayCast_Left
 
-#Children_nodes
-var particles: GPUParticles3D
-var cube: MeshInstance3D
-var collision_shape: CollisionShape3D
-var camera: Camera3D
-var ray_up: RayCast3D
-var ray_down: RayCast3D
-var ray_front: RayCast3D
-var ray_back: RayCast3D
-var ray_right: RayCast3D
-var ray_left: RayCast3D
+@onready var bottom_raycast: RayCast3D = ray_down
 
 func _ready() -> void:
-	particles = $Tears
-	cube = $Cube
-	collision_shape = $CollisionShape3D
-	camera = $Camera3D
-	ray_up = $RayCast_Up
-	ray_down = $RayCast_Down
-	ray_front = $RayCast_Front
-	ray_back = $RayCast_Back
-	ray_right = $RayCast_Right
-	ray_left = $RayCast_Left
-	
 	continuous_cd = true
 	gravity_scale = 5.0
 	

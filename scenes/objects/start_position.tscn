@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=4 uid="uid://6a6k50p1n612"]
+[gd_scene load_steps=9 format=4 uid="uid://6a6k50p1n612"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7v5lo"]
 resource_name = "Material.003"
@@ -43,6 +43,22 @@ shadow_mesh = SubResource("ArrayMesh_df3gt")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jut1q"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jut1q"]
+albedo_color = Color(0, 1, 0, 0.5019608)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8wr2y"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1gtu8"]
+albedo_color = Color(0, 1, 0, 0.5019608)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pu8ym"]
+top_radius = 0.0
+bottom_radius = 0.3
+height = 0.5
+
 [node name="Start_Position" type="StaticBody3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -51,3 +67,15 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_jut1q")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1)
+material_override = SubResource("StandardMaterial3D_jut1q")
+transparency = 0.5
+mesh = SubResource("CylinderMesh_8wr2y")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1.5)
+material_override = SubResource("StandardMaterial3D_1gtu8")
+transparency = 0.5
+mesh = SubResource("CylinderMesh_pu8ym")

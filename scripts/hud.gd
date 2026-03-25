@@ -20,8 +20,7 @@ func fill_item_list():
 	item_list.fixed_icon_size = Vector2i(64, 64)
 	item_list.clear()
 	
-	var path = "res://scenes/objects/" 
-	var dir = DirAccess.open(path)
+	var dir = DirAccess.open(GlobalData.OBJ_DIR)
 	
 	if dir:
 		dir.list_dir_begin()
@@ -31,7 +30,7 @@ func fill_item_list():
 			if !dir.current_is_dir() and file_name.ends_with(".tscn"):
 				var clean_name = file_name.replace(".tscn", "")
 				
-				var icon_path = path + clean_name + ".png"
+				var icon_path = GlobalData.OBJ_DIR + clean_name + ".png"
 				var icon_texture = null
 				
 				if FileAccess.file_exists(icon_path):
@@ -43,7 +42,7 @@ func fill_item_list():
 			file_name = dir.get_next()
 		dir.list_dir_end()
 	else:
-		print("Błąd: Nie można otworzyć folderu: ", path)
+		print("Błąd: Nie można otworzyć folderu: ", GlobalData.OBJ_DIR)
 
 func _on_object_list_item_activated(index: int) -> void:
 	if index < 0:
@@ -102,18 +101,15 @@ func _on_write_button_pressed():
 
 	var json_string = JSON.stringify(save_data, "\t")
 	
-	var file_path = "user://maps/" + GlobalData.current_level_name + ".json"
 	
-	var dir = DirAccess.open("user://")
-	if not dir.dir_exists("maps"):
-		dir.make_dir("maps")
-	
-	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	if not DirAccess.dir_exists_absolute(GlobalData.MAPS_DIR):
+		DirAccess.make_dir_absolute(GlobalData.MAPS_DIR)
+	var file = FileAccess.open(GlobalData.MAPS_DIR + GlobalData.current_level_name + ".json", FileAccess.WRITE)
 	
 	if file:
 		file.store_string(json_string)
 		file.close()
-		print("SUKCES: Zapisano plik w: ", file_path)
+		print("SUKCES: Zapisano plik w: ", GlobalData.MAPS_DIR + GlobalData.current_level_name + ".json")
 	else:
 		var err = FileAccess.get_open_error()
 		print("BŁĄD ZAPISU (Kod: ", err, ")")
