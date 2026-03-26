@@ -1,4 +1,4 @@
 - mega skok (chyba)
 - hitboxy do naprawy
 
-- kamera kostki nie jest rotowana
+- pewien problem z funkcjami kamery kostki, w zwyklej grze trzeba ja aktywowac

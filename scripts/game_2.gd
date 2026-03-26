@@ -3,6 +3,7 @@ extends Node
 
 
 @onready var ice_cube = $IceCube
+@onready var ice_cube_camera = $IceCube/Camera3D
 @onready var col_up = $Room/CollisionShape_Up
 @onready var col_right = $Room/CollisionShape_Right
 @onready var col_front = $Room/CollisionShape_Front
@@ -72,3 +73,4 @@ func load_level_from_json(path: String):
 				instance.scale = Vector3(scl.x, scl.y, scl.z)
 			else:
 				print("Nie udało się załadować sceny: ", full_path)
+	ice_cube_camera.activate()

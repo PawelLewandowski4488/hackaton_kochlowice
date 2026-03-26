@@ -1,20 +1,30 @@
 extends Camera3D
 
 @export var target: RigidBody3D  # kostka, czyli rodzic
-@export var distance := 3.0
+@export var distance := 4.0
 @export var mouse_sensitivity := 0.002
-@export var min_pitch := deg_to_rad(-30)
+@export var min_pitch := deg_to_rad(-60)
 @export var max_pitch := deg_to_rad(60)
-
-
+@export var vertical_offset := deg_to_rad(25)
 
 var yaw := 0.0
 var pitch := 0.0
 
 func _ready():
-	target = get_parent()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	look_at(target.global_transform.origin, Vector3.UP)
+	set_process(false)
+	set_physics_process(false)
+
+func activate():
+	target = get_parent()
+	var parent_rot = target.global_transform.basis.get_euler()
+	yaw = parent_rot.y
+	pitch = clamp(parent_rot.x + vertical_offset, min_pitch, max_pitch)
+	
+	set_process(true)
+	set_physics_process(true)
+	
+	_process(0)
 
 func _input(event):
 	if event is InputEventMouseMotion:
