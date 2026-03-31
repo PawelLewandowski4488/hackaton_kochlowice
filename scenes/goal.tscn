@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bh8u46pcy454o"]
+
+[ext_resource type="Script" uid="uid://ckyo8u34qwhlj" path="res://scripts/goal.gd" id="1_jbojv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xl315"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbojv"]
+transparency = 1
+albedo_color = Color(0, 1, 0, 0.5019608)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sx1j4"]
+
+[node name="Goal" type="Area3D"]
+script = ExtResource("1_jbojv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_xl315")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_jbojv")
+mesh = SubResource("BoxMesh_sx1j4")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

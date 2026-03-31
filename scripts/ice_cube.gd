@@ -1,5 +1,7 @@
 extends RigidBody3D
 
+class_name IceCube
+
 var script_enabled = true
 
 var front_dir = Vector3.ZERO

@@ -56,6 +56,14 @@ func update_level_size():
 	light.omni_range = max(GlobalData.level_size[0], GlobalData.level_size[1], GlobalData.level_size[2])
 
 func _create_object(id: String):
+	var unique_ids = ["ice_cube", "goal"] 
+	
+	if id in unique_ids:
+		for existing_obj in get_tree().get_nodes_in_group("built_objects"):
+			if existing_obj.get_meta("object_id") == id:
+				print("Obiekt ", id, " już istnieje! Nie można stworzyć drugiego.")
+				object_properties.select_object(existing_obj)
+				return 
 	var full_path = GlobalData.OBJ_DIR + id + ".tscn"
 	var object_scene = load(full_path)
 	

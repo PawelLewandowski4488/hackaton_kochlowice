@@ -2,19 +2,17 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72oew"]
 transparency = 1
-albedo_color = Color(0.32941177, 1, 0.32941177, 0.5019608)
+albedo_color = Color(0, 1, 0, 0.5019608)
 
 [sub_resource type="BoxMesh" id="BoxMesh_d1k5b"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_g85mp"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_72oew"]
 
-[node name="Goal" type="Node3D"]
+[node name="Goal" type="StaticBody3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_72oew")
 mesh = SubResource("BoxMesh_d1k5b")
 
-[node name="Area3D" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("BoxShape3D_g85mp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_72oew")

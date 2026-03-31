@@ -4,6 +4,9 @@ extends Node
 
 @onready var ice_cube = $IceCube
 @onready var ice_cube_camera = $IceCube/Camera3D
+@onready var goal = $Goal
+@onready var goal_collision_shape = $Goal/CollisionShape3D
+@onready var goal_mesh_instance = $Goal/MeshInstance3D
 @onready var col_up = $Room/CollisionShape_Up
 @onready var col_right = $Room/CollisionShape_Right
 @onready var col_front = $Room/CollisionShape_Front
@@ -11,7 +14,8 @@ extends Node
 @onready var light = $Room/OmniLight3D
 
 func _ready():
-	load_level_from_json(GlobalData.MAPS_DIR + "test.json");
+	if GlobalData.current_level_name != "":
+		load_level_from_json(GlobalData.MAPS_DIR + GlobalData.current_level_name + ".json")
 	
 func update_level_size():
 	col_right.position.x = GlobalData.level_size[0]
@@ -53,6 +57,14 @@ func load_level_from_json(path: String):
 			var rot = obj_data["rot"]
 			ice_cube.global_position = Vector3(pos.x, pos.y, pos.z)
 			ice_cube.global_rotation_degrees = Vector3(rot.x, rot.y, rot.z)
+		elif type == 'goal':
+			var pos = obj_data["pos"]
+			var rot = obj_data["rot"]
+			var size = obj_data["scale"]
+			goal.global_position = Vector3(pos.x, pos.y, pos.z)
+			goal.global_rotation_degrees = Vector3(rot.x, rot.y, rot.z)
+			goal_collision_shape.shape.size = Vector3(size.x, size.y, size.z)
+			goal_mesh_instance.mesh.size = Vector3(size.x, size.y, size.z)
 		else:
 			var full_path = GlobalData.OBJ_DIR + type + ".tscn"
 			var scene = load(full_path)
@@ -74,3 +86,4 @@ func load_level_from_json(path: String):
 			else:
 				print("Nie udało się załadować sceny: ", full_path)
 	ice_cube_camera.activate()
+	goal.activate()

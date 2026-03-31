@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://6yg2gec7w3ih"]
+[gd_scene load_steps=12 format=3 uid="uid://6yg2gec7w3ih"]
 
 [ext_resource type="Script" uid="uid://d2l4sr3n4v0il" path="res://scripts/game_2.gd" id="1_r11to"]
 [ext_resource type="PackedScene" uid="uid://5pjdsjxjw7ym" path="res://scenes/ice_cube.tscn" id="2_1oiof"]
+[ext_resource type="PackedScene" uid="uid://bh8u46pcy454o" path="res://scenes/goal.tscn" id="3_1oiof"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3sm6k"]
 cull_mode = 1
@@ -64,3 +65,5 @@ omni_range = 30.0
 omni_attenuation = 0.5
 
 [node name="IceCube" parent="." instance=ExtResource("2_1oiof")]
+
+[node name="Goal" parent="." instance=ExtResource("3_1oiof")]
