@@ -2,12 +2,15 @@ extends CanvasLayer
 
 signal object_selected_to_spawn(object_id)
 
-@onready var item_list = $Left_Control/Object_List
+@onready var object_list = $Left_Control/VBoxContainer/Object_List
+@onready var special_list = $Left_Control/VBoxContainer/Special_List
 @onready var camera = $"../Camera_Pivot/Camera3D"
 @onready var object_properties = $Right_Control/VBoxContainer/Object_Properties
 @onready var level_size_x = $Right_Control/VBoxContainer/HBoxContainer/Level_size_x
 @onready var level_size_y = $Right_Control/VBoxContainer/HBoxContainer/Level_size_y
 @onready var level_size_z = $Right_Control/VBoxContainer/HBoxContainer/Level_size_z
+
+const specials = ["start_position","goal"]
 
 func _ready():
 	fill_item_list()
@@ -17,8 +20,11 @@ func _process(delta):
 	pass
 	
 func fill_item_list():
-	item_list.fixed_icon_size = Vector2i(64, 64)
-	item_list.clear()
+	object_list.fixed_icon_size = Vector2i(64, 64)
+	object_list.clear()
+	
+	special_list.fixed_icon_size = Vector2i(64, 64)
+	special_list.clear()
 	
 	var dir = DirAccess.open(GlobalData.OBJ_DIR)
 	
@@ -29,6 +35,9 @@ func fill_item_list():
 		while file_name != "":
 			if !dir.current_is_dir() and file_name.ends_with(".tscn"):
 				var clean_name = file_name.replace(".tscn", "")
+				var target_list = object_list
+				if clean_name in specials:
+					target_list = special_list
 				
 				var icon_path = GlobalData.OBJ_DIR + clean_name + ".png"
 				var icon_texture = null
@@ -36,8 +45,8 @@ func fill_item_list():
 				if FileAccess.file_exists(icon_path):
 					icon_texture = load(icon_path)
 				
-				var idx = item_list.add_item(clean_name, icon_texture)
-				item_list.set_item_metadata(idx, clean_name)
+				var idx = target_list.add_item(clean_name, icon_texture)
+				target_list.set_item_metadata(idx, clean_name)
 			
 			file_name = dir.get_next()
 		dir.list_dir_end()
@@ -47,11 +56,19 @@ func fill_item_list():
 func _on_object_list_item_activated(index: int) -> void:
 	if index < 0:
 		return
-	var id = item_list.get_item_metadata(index)
+	var id = object_list.get_item_metadata(index)
 	print(id)
 	object_selected_to_spawn.emit(id) 
-	item_list.deselect_all()
+	object_list.deselect_all()
 
+func _on_special_list_item_activated(index: int) -> void:
+	if index < 0:
+		return
+	var id = special_list.get_item_metadata(index)
+	print(id)
+	object_selected_to_spawn.emit(id) 
+	special_list.deselect_all()
+	
 
 func _on_write_button_pressed():
 	var save_data = {

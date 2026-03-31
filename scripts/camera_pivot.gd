@@ -1,7 +1,14 @@
 extends Node3D
 
-@export var speed: float = 10.0       
+@onready var camera = $Camera3D
+@onready var speed_bar = owner.get_node("HUD/Middle_control/ProgressBar")
+	  
 @export var sensitivity: float = 0.2   
+
+var speed: float = 2.0  
+const MIN_SPEED = 0.5 
+const MAX_SPEED = 50.0  
+const SPEED_STEP = 1.2  
 
 var yaw: float = 0.0
 var pitch: float = 0.0
@@ -9,20 +16,21 @@ var pitch: float = 0.0
 func _ready():
 	yaw = rotation_degrees.y
 	pitch = rotation_degrees.x
+	update_speed_ui()
 
 func _input(event):
 	if owner.move_mode == false:
 		return
 	
 	if event.is_action_pressed("scroll_up"):
-		speed += 1.0 
-		speed = clamp(speed, 1.0, 10.0)
-		print("Prędkość: ", speed)
+		speed *= SPEED_STEP
+		speed = clamp(speed, MIN_SPEED, MAX_SPEED)
+		update_speed_ui()
 		
 	if event.is_action_pressed("scroll_down"):
-		speed -= 1.0
-		speed = clamp(speed, 1.0, 10.0)
-		print("Prędkość: ", speed)
+		speed /= SPEED_STEP
+		speed = clamp(speed, MIN_SPEED, MAX_SPEED)
+		update_speed_ui()
 	
 	if event is InputEventMouseMotion:
 		yaw -= event.relative.x * sensitivity
@@ -50,3 +58,7 @@ func _process(delta):
 	dir = dir.normalized()
 	if dir != Vector3.ZERO:
 		global_translate(dir * speed * delta)
+
+func update_speed_ui():
+	if speed_bar:
+		speed_bar.value = speed*2

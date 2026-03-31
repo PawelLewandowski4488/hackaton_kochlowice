@@ -14,5 +14,5 @@ func activate():
 
 
 func _on_body_entered(body: Node3D) -> void:
-	if body is IceCube:
-		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	if body is IceCube and active:
+		get_tree().call_deferred("change_scene_to_file", "res://scenes/main_menu.tscn")

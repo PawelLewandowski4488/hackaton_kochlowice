@@ -2,6 +2,7 @@ extends Node3D
 
 var move_mode
 
+@onready var camera_pivot = $Camera_Pivot
 @onready var camera = $Camera_Pivot/Camera3D
 @onready var hud = $HUD
 @onready var object_properties = $HUD/Right_Control/VBoxContainer/Object_Properties
@@ -15,6 +16,8 @@ var level_size: Vector3 = Vector3(10,20,30)
 
 var selected_object = null
 
+var is_holding: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if GlobalData.current_level_name != "":
@@ -25,9 +28,10 @@ func _ready():
 			print("Rozpoczynanie nowego projektu: ", GlobalData.current_level_name)
 	
 	update_level_size()
-	object_properties.camera = camera
 	move_mode = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	object_properties.hold_mode_changed.connect(_on_hold_mode_changed)
+	object_properties.ortho_mode_changed.connect(_on_ortho_mode_changed)
 	hud.object_selected_to_spawn.connect(_create_object)
 
 func _input(event):
@@ -44,7 +48,45 @@ func _input(event):
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _process(delta):
-	pass
+	if is_holding:
+		var obj = object_properties.selected_object
+		if obj and is_instance_valid(obj):
+			obj.global_position = camera_pivot.global_position
+
+func _on_hold_mode_changed(toggled_on: bool):
+	is_holding = toggled_on
+	var obj = object_properties.selected_object
+	
+	if not obj or not is_instance_valid(obj): 
+		is_holding = false
+		return
+
+	if is_holding:
+		# --- WEJŚCIE W TRYB HOLD ---
+		# 1. Pivot skacze do obiektu
+		camera_pivot.global_position = obj.global_position
+		# 2. Kamera odsuwa się, żebyśmy widzieli co trzymamy (np. 5m)
+		camera.position = Vector3(0, 0, 5.0)
+		camera.look_at(obj.global_position)
+	else:
+		# --- WYJŚCIE Z TRYBU HOLD ---
+		# Pivot zostaje tam, gdzie była fizycznie kamera
+		var current_cam_pos = camera.global_position
+		camera_pivot.global_position = current_cam_pos
+		# Kamera wraca do środka (0,0,0) względem Pivota
+		camera.position = Vector3.ZERO
+
+func _on_ortho_mode_changed(toggled_on: bool):
+	if toggled_on and is_holding:
+		camera.position = Vector3.ZERO
+		camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+		camera.size = 10.0
+		# Opcjonalnie możesz tu ustawić domyślny rozmiar (zoom), 
+		# bo domyślnie może być za mały/za duży:
+		# camera.size = 10.0
+	else:
+		camera.projection = Camera3D.PROJECTION_PERSPECTIVE
+		camera.position = Vector3(0, 0, 5.0)
 
 func update_level_size():
 	col_right.position.x = GlobalData.level_size[0]
@@ -56,7 +98,7 @@ func update_level_size():
 	light.omni_range = max(GlobalData.level_size[0], GlobalData.level_size[1], GlobalData.level_size[2])
 
 func _create_object(id: String):
-	var unique_ids = ["ice_cube", "goal"] 
+	var unique_ids = ["start_position", "goal"] 
 	
 	if id in unique_ids:
 		for existing_obj in get_tree().get_nodes_in_group("built_objects"):
@@ -73,8 +115,8 @@ func _create_object(id: String):
 		instance.add_to_group("built_objects")
 		add_child(instance)
 		
-		if camera:
-			var spawn_pos = camera.global_position - camera.global_transform.basis.z * 5
+		if camera_pivot:
+			var spawn_pos = camera_pivot.global_position - camera_pivot.global_transform.basis.z * 5
 			instance.global_position = spawn_pos
 		object_properties.select_object(instance)
 

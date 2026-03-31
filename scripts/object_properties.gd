@@ -1,6 +1,10 @@
 extends PanelContainer
 
+signal hold_mode_changed(toggled_on: bool)
+signal ortho_mode_changed(toggled_on: bool)
+
 @onready var object_name = $VBoxContainer/Object_Name
+@onready var orthogonal_switch = $VBoxContainer/Orthogonal_Switch
 
 @onready var pos_x = $VBoxContainer/Position_Container/Position_X
 @onready var pos_y = $VBoxContainer/Position_Container/Position_Y
@@ -14,26 +18,22 @@ extends PanelContainer
 @onready var sca_y = $VBoxContainer/Scale_Container/Scale_Y
 @onready var sca_z = $VBoxContainer/Scale_Container/Scale_Z
 
-var camera: Camera3D = null
-
 var selected_object = null
-
-var is_following_camera: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	visible = false
+	orthogonal_switch.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if is_following_camera and selected_object and is_instance_valid(selected_object) and camera:
-		var target_pos = camera.global_position - camera.global_transform.basis.z * 3.0
-		selected_object.global_position = target_pos
-		
-		pos_x.text = "%.2f" % selected_object.global_position.x
-		pos_y.text = "%.2f" % selected_object.global_position.y
-		pos_z.text = "%.2f" % selected_object.global_position.z
+	pass
+
+func update_position():
+	pos_x.text = "%.2f" % selected_object.global_position.x
+	pos_y.text = "%.2f" % selected_object.global_position.y
+	pos_z.text = "%.2f" % selected_object.global_position.z
 
 func select_object(object):
 	selected_object = object
@@ -115,4 +115,8 @@ func _on_value_submitted(new_text, extra_arg_0):
 
 
 func _on_hold_switch_toggled(toggled_on):
-	is_following_camera = toggled_on
+	orthogonal_switch.visible = toggled_on
+	hold_mode_changed.emit(toggled_on)
+
+func _on_orthogonal_switch_toggled(toggled_on):
+	ortho_mode_changed.emit(toggled_on)
