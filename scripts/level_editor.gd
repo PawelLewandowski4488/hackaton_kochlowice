@@ -52,6 +52,7 @@ func _process(delta):
 		var obj = object_properties.selected_object
 		if obj and is_instance_valid(obj):
 			obj.global_position = camera_pivot.global_position
+			object_properties.update_position()
 
 func _on_hold_mode_changed(toggled_on: bool):
 	is_holding = toggled_on
@@ -65,8 +66,14 @@ func _on_hold_mode_changed(toggled_on: bool):
 		# --- WEJŚCIE W TRYB HOLD ---
 		# 1. Pivot skacze do obiektu
 		camera_pivot.global_position = obj.global_position
+		var s = obj.scale
+		var max_scale = max(s.x, max(s.y, s.z))
+		var size = obj.get_meta("base_size", 1.0) * max_scale
+		
+		# 2. Dynamiczny dystans (rozmiar * mnożnik komfortu, np. 3.5)
+		var dynamic_dist = size * 3.5
 		# 2. Kamera odsuwa się, żebyśmy widzieli co trzymamy (np. 5m)
-		camera.position = Vector3(0, 0, 5.0)
+		camera.position = Vector3(0, 0, dynamic_dist)
 		camera.look_at(obj.global_position)
 	else:
 		# --- WYJŚCIE Z TRYBU HOLD ---
@@ -113,6 +120,13 @@ func _create_object(id: String):
 		var instance = object_scene.instantiate()
 		instance.set_meta("object_id", id)
 		instance.add_to_group("built_objects")
+		var mesh_node = instance.find_child("*", "MeshInstance3D", true)
+		var base_size = 1.0 # 
+		
+		if mesh_node and mesh_node.mesh:
+			base_size = mesh_node.mesh.get_aabb().size.get_max()
+		
+		instance.set_meta("base_size", base_size)
 		add_child(instance)
 		
 		if camera_pivot:
