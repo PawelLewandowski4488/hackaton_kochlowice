@@ -120,11 +120,16 @@ func _create_object(id: String):
 		var instance = object_scene.instantiate()
 		instance.set_meta("object_id", id)
 		instance.add_to_group("built_objects")
-		var mesh_node = instance.find_child("*", "MeshInstance3D", true)
+		var mesh_node
+		for child in instance.get_children():
+			if child is MeshInstance3D:
+				mesh_node = child
+				break
 		var base_size = 1.0 # 
 		
 		if mesh_node and mesh_node.mesh:
-			base_size = mesh_node.mesh.get_aabb().size.get_max()
+			var size_vec = mesh_node.mesh.get_aabb().size
+			base_size = max(size_vec.x, size_vec.y, size_vec.z)
 		
 		instance.set_meta("base_size", base_size)
 		add_child(instance)

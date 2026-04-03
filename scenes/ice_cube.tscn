@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=4 uid="uid://5pjdsjxjw7ym"]
 
-[ext_resource type="Script" uid="uid://bdh8aol408ftt" path="res://scripts/ice_cube.gd" id="1_72td6"]
+[ext_resource type="Script" uid="uid://bvegycgdex7sy" path="res://scripts/ice_cube.gd" id="1_72td6"]
 [ext_resource type="Script" uid="uid://ht0t5thw4880" path="res://scripts/camera_3d.gd" id="2_o457p"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_o457p"]
@@ -69,6 +69,7 @@ shadow_mesh = SubResource("ArrayMesh_8tppi")
 mass = 1000.0
 physics_material_override = SubResource("PhysicsMaterial_o457p")
 gravity_scale = 2.0
+linear_damp = 1.0
 angular_damp = 3.0
 script = ExtResource("1_72td6")
 

@@ -58,7 +58,7 @@ func _process(delta: float) -> void:
 		"left":
 			bottom_raycast = ray_left
 		
-	if bottom_raycast == null or not bottom_raycast.is_colliding():
+	if bottom_raycast == null or not bottom_raycast.is_colliding() and linear_velocity.length() < 0.2:
 		particles.emitting = false
 		return
 	else:
